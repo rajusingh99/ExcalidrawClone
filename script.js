@@ -1,32 +1,41 @@
-const canvas = document.getElementById("drawingCanvas");
-const context = canvas.getContext("2d");
 
-let isDrawing = false;
+    const canvas = document.getElementById("drawingCanvas");
+    const context = canvas.getContext("2d");
 
-canvas.addEventListener("mousedown", startDrawing);
-canvas.addEventListener("mousemove", draw);
-canvas.addEventListener("mouseup", stopDrawing);
-canvas.addEventListener("mouseout", stopDrawing);
+    let isDrawing = false;
 
-function startDrawing(e) {
-    isDrawing = true;
-    draw(e);
-}
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-function draw(e) {
-    if (!isDrawing) return;
+    window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+    canvas.addEventListener("mousedown", startDrawing);
+    canvas.addEventListener("mousemove", draw);
+    canvas.addEventListener("mouseup", stopDrawing);
+    canvas.addEventListener("mouseout", stopDrawing);
 
-    context.lineWidth = 5;
-    context.lineCap = "round";
-    context.strokeStyle = "#000";
+    function startDrawing(e) {
+        isDrawing = true;
+        draw(e);
+    }
 
-    context.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
-    context.stroke();
-    context.beginPath();
-    context.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
-}
+    function draw(e) {
+        if (!isDrawing) return;
 
-function stopDrawing() {
-    isDrawing = false;
-    context.beginPath();
-}
+        context.lineWidth = 3;
+        context.lineCap = "round";
+        context.strokeStyle = "#000";
+
+        context.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+        context.stroke();
+        context.beginPath();
+        context.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+    }
+
+    function stopDrawing() {
+        isDrawing = false;
+        context.beginPath();
+    }
+
